@@ -53,7 +53,8 @@ export class PostsController {
     @Request() req: JwtRequest,
     @Body() updatePostDto: UpdatePostDto,
   ): Promise<PostModel> {
-    const userId = req.user.userId;
+    // const userId = req.user.userId;
+    const userId = 1;
     return await this.postsService.update(id, userId, updatePostDto);
   }
 

@@ -6,17 +6,28 @@ export default function Message() {
   const searchParams = useSearchParams(); //クエリ文字列を取得
   // パラメータを取得
   const status = searchParams.get('status');
+  const type = searchParams.get('type');
   const action = searchParams.get('action');
 
-  if (!status || !action) return null;
+  if (!status || !type || !action) return null;
 
   let classes = 'p-3 rounded font-medium mb-4';
   let message = '';
 
   if (status === 'success') {
     classes += ' bg-green-100 ';
-    if (action === 'post') {
-      message = '新規投稿しました！';
+
+    if (type === 'post') {
+      if (action === 'create') {
+        message = '新規投稿しました！';
+      }
+      if (action === 'update') {
+        message = '投稿を更新しました！';
+      }
+    }
+
+    if (action === 'user') {
+      message = 'ユーザー登録しました！';
     }
   }
 

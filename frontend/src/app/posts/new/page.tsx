@@ -1,4 +1,4 @@
-import CreateForm from "@/src/components/posts/CreateForm";
+import CreateForm from '@/src/components/post/CreateForm';
 
 export default function CreatePostPage() {
   return (

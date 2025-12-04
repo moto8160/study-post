@@ -37,7 +37,7 @@ export class PostsService {
         date: true,
         studyTime: true,
         updatedAt: true,
-        user: { select: { name: true } },
+        user: { select: { id: true, name: true } },
       },
       where: { id },
     });
@@ -62,7 +62,10 @@ export class PostsService {
     this.assertOwnPost(post, userId);
     return this.prisma.post.update({
       where: { id },
-      data: { ...updatePostDto },
+      data: {
+        ...updatePostDto,
+        date: new Date(updatePostDto.date),
+      },
     });
   }
 

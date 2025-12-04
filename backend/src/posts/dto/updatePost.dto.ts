@@ -1,19 +1,19 @@
-import { IsDateString, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsNumber, IsString, Min } from 'class-validator';
 
 export class UpdatePostDto {
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'タイトルが未入力です' })
   title: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: '内容が未入力です' })
   content: string;
 
+  @Min(0.5, { message: '時間が未入力です' })
   @IsNumber()
-  @IsNotEmpty()
   studyTime: number;
 
   @IsDateString()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: '日付が未入力です' })
   date: string;
 }

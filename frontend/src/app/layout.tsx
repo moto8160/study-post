@@ -25,9 +25,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <header className="fixed w-full bg-black text-white p-4 flex gap-5">
           <Link href="/">投稿一覧</Link>
-          <Link href="/posts/create">新規投稿</Link>
+          <Link href="/posts/new">新規投稿</Link>
+          <Link href="/users">ユーザー一覧</Link>
+          <Link href="/users/new">ユーザー登録</Link>
         </header>
-        <main className="pt-14">{children}</main>
+        <main className="pt-14 bg-gray-50 min-h-screen">{children}</main>
       </body>
     </html>
   );

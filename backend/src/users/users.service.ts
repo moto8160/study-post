@@ -3,17 +3,31 @@ import { CreateUserDto } from './dto/createUser.dto';
 import { PrismaService } from 'src/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { User } from 'generated/prisma';
+import { UserDetailDto, UserListDto } from './dto/user-response.dto';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(): Promise<User[]> {
-    return this.prisma.user.findMany();
+  async findAll(): Promise<UserListDto[]> {
+    return this.prisma.user.findMany({
+      select: { id: true, name: true, createdAt: true },
+      orderBy: { createdAt: 'desc' },
+    });
   }
 
-  async findOne(id: number): Promise<User> {
-    return await this.findUserById(id);
+  async findOne(id: number): Promise<UserDetailDto> {
+    const user = await this.prisma.user.findUniqueOrThrow({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        createdAt: true,
+        posts: { orderBy: { createdAt: 'desc' } },
+      },
+    });
+    const totalStudyTime = user.posts.reduce((sum, post) => sum + post.studyTime, 0);
+    return { ...user, posts: user.posts, totalStudyTime };
   }
 
   async createUser(dto: CreateUserDto): Promise<User> {

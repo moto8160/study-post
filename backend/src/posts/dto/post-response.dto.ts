@@ -1,4 +1,4 @@
-export type PostsResponse = {
+export type PostDetailResponse = {
   id: number;
   title: string;
   content: string;
@@ -6,6 +6,7 @@ export type PostsResponse = {
   studyTime: number;
   updatedAt: Date;
   user: {
+    id: number;
     name: string;
   };
 };

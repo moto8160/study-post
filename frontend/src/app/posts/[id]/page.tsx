@@ -1,4 +1,5 @@
-import DeleteButton from '@/src/components/posts/DeleteButton';
+import DeleteButton from '@/src/components/post/DeleteButton';
+import Link from 'next/link';
 
 const formatDate = (date: string) =>
   new Date(date).toLocaleString('ja-JP', {
@@ -20,7 +21,9 @@ export default async function PostDetailPage({ params }: { params: Promise<{ id:
       <h1 className="text-3xl text-center font-bold mb-6">投稿詳細</h1>
 
       <div className="bg-white p-4 rounded-xl shadow">
-        <h2 className="text-sm text-gray-600 mb-1">{post.user?.name}</h2>
+        <Link href="`/users/${post.user.id}`" className="hover:underline">
+          <h2 className="text-sm text-gray-600 mb-1">{post.user?.name}</h2>
+        </Link>
         <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
         <p className="text-gray-700 mb-5">{post.content}</p>
 
