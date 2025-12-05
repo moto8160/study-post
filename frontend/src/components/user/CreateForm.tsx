@@ -16,7 +16,7 @@ export default function CreateForm() {
       return;
     }
 
-    router.replace('/posts?status=success&action=user');
+    router.replace('/posts?status=success&type=user&action=create');
   }
 
   return (

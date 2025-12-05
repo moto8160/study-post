@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { PostsIndex } from '@/src/types/post';
+import { PostResponse } from '@/src/types/post';
 import Message from '@/src/components/message';
 
 const formatDate = (date: string) =>
@@ -13,7 +13,7 @@ const formatDate = (date: string) =>
 
 export default async function PostsPage() {
   const res = await fetch('http://localhost:4000/posts');
-  const posts: PostsIndex = await res.json();
+  const posts: PostResponse[] = await res.json();
 
   return (
     <div className="max-w-4xl mx-auto p-6 ">
@@ -27,7 +27,7 @@ export default async function PostsPage() {
               href={`/posts/${post.id}`}
               className="block bg-white p-4 rounded-xl shadow hover:shadow-xl transition"
             >
-              <h2 className="text-sm text-gray-600 mb-1">{post.user.name}</h2>
+              <h2 className="text-sm mb-1">{post.user.name}</h2>
               <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
               <p className="text-gray-700 mb-5">{post.content}</p>
               <div className="flex gap-5 text-sm text-gray-600">

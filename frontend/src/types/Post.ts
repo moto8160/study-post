@@ -8,7 +8,7 @@ export type Post = {
   updatedAt: string;
 };
 
-export type PostsIndex = {
+export type PostResponse = {
   id: number;
   title: string;
   content: string;
@@ -17,6 +17,7 @@ export type PostsIndex = {
   createdAt: string;
   updatedAt: string;
   user: {
+    id: number;
     name: string;
   };
-}[];
+};

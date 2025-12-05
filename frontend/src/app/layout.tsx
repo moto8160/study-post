@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Link from 'next/link';
+import { logout } from './logout/actions';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -28,6 +29,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <Link href="/posts/new">新規投稿</Link>
           <Link href="/users">ユーザー一覧</Link>
           <Link href="/users/new">ユーザー登録</Link>
+          <Link href="/login">ログイン</Link>
+          <form action={logout}>
+            <button>ログアウト</button>
+          </form>
         </header>
         <main className="pt-14 bg-gray-50 min-h-screen">{children}</main>
       </body>

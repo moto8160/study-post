@@ -3,13 +3,13 @@ import { CreatePostDto } from './dto/createPost.dto';
 import { UpdatePostDto } from './dto/updatePost.dto';
 import { PrismaService } from 'src/prisma.service';
 import { Post, Post as PostModel } from 'generated/prisma';
-import { PostsResponse } from './types/PostsResponse';
+import { PostResponse } from './dto/post-response.dto';
 
 @Injectable()
 export class PostsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(): Promise<PostsResponse[]> {
+  async findAll(): Promise<PostResponse[]> {
     return this.prisma.post.findMany({
       select: {
         id: true,
@@ -18,17 +18,13 @@ export class PostsService {
         date: true,
         studyTime: true,
         updatedAt: true,
-        user: { select: { name: true } },
+        user: { select: { id: true, name: true } },
       },
       orderBy: { createdAt: 'desc' },
     });
   }
 
-  // async findOne(id: number): Promise<PostModel> {
-  //   return await this.findPostByID(id);
-  // }
-
-  async findOne(id: number): Promise<PostsResponse> {
+  async findOne(id: number): Promise<PostResponse> {
     return this.prisma.post.findUniqueOrThrow({
       select: {
         id: true,
@@ -43,16 +39,12 @@ export class PostsService {
     });
   }
 
-  async createPost(createPostDto: CreatePostDto, userId: number): Promise<PostModel> {
-    return await this.prisma.post.create({
+  async createPost(dto: CreatePostDto, userId: number): Promise<PostModel> {
+    return this.prisma.post.create({
       data: {
-        // title: createPostDto.title,
-        // content: createPostDto.content,
-        // studyTime: createPostDto.time,
-        // date: createPostDto.date,
-        ...createPostDto, //JS-スプレッド構文でDTOの中身を展開(プロパティ：値)
-        date: new Date(createPostDto.date), //stringで受け取ってdateに変換
-        userId, //必須リレーション
+        ...dto, //JS-スプレッド構文でDTOの中身を展開(プロパティ：値)
+        date: new Date(dto.date), //上書き（stringで受け取ってdateに変換）
+        userId, //userId: userId
       },
     });
   }
@@ -79,16 +71,13 @@ export class PostsService {
 
   // idからPostを取得
   private async findPostByID(id: number): Promise<Post> {
-    return this.prisma.post.findUniqueOrThrow({
-      //404 not found
-      where: { id },
-    });
+    return this.prisma.post.findUniqueOrThrow({ where: { id } }); //404 NotFound
   }
 
   // 自分の投稿かをチェック
   private assertOwnPost(post: Post, userId: number) {
     if (post.userId !== userId) {
-      throw new ForbiddenException('自分の投稿じゃないよ><'); //403 権限エラー
+      throw new ForbiddenException(); //403 権限エラー
     }
   }
 
