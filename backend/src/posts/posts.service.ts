@@ -14,28 +14,29 @@ export class PostsService {
     return this.prisma.post.findMany({
       include: {
         user: { select: { id: true, name: true } },
+        _count: { select: { comments: true, likes: true } },
       },
       orderBy: { createdAt: 'desc' },
     });
   }
 
-  async findOne(id: number): Promise<PostDetail> {
-    return this.prisma.post.findUniqueOrThrow({
+  async findOne(postId: number, userId: number): Promise<PostDetail> {
+    const post = await this.prisma.post.findUniqueOrThrow({
       include: {
-        user: {
-          select: { id: true, name: true },
-        },
+        user: { select: { id: true, name: true } },
+        _count: { select: { comments: true, likes: true } },
         comments: {
           include: {
-            user: {
-              select: { id: true, name: true },
-            },
+            user: { select: { id: true, name: true } },
           },
           orderBy: { createdAt: 'desc' },
         },
+        likes: { where: { userId } },
       },
-      where: { id },
+      where: { id: postId },
     });
+    const isLiked = post.likes.length > 0;
+    return { ...post, isLiked }; //postをスプレッドで展開
   }
 
   async createPost(dto: CreatePostDto, userId: number): Promise<PostModel> {
@@ -66,12 +67,29 @@ export class PostsService {
     await this.prisma.post.delete({ where: { id } });
   }
 
-  async createComment(id: number, userId: number, dto: CreateCommentDto): Promise<Comment> {
+  async createComment(postId: number, userId: number, dto: CreateCommentDto): Promise<Comment> {
     return this.prisma.comment.create({
       data: {
-        post: { connect: { id: id } }, //リレーション
-        user: { connect: { id: userId } },
+        postId,
+        userId,
         content: dto.content,
+      },
+    });
+  }
+
+  async createLike(postId: number, userId: number) {
+    await this.prisma.like.create({
+      data: {
+        postId,
+        userId,
+      },
+    });
+  }
+
+  async deleteLike(postId: number, userId: number) {
+    await this.prisma.like.delete({
+      where: {
+        postId_userId: { postId, userId }, //複合主キー
       },
     });
   }

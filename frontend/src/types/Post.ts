@@ -1,44 +1,30 @@
+import { Comment } from './comment';
+import { Like } from './like';
+
 export type Post = {
   id: number;
   userId: number;
   title: string;
   content: string;
-  date: string; // DateTimeは JSON で文字列になる
+  date: string; // DateはJSONでstringに
   studyTime: number;
   createdAt: string;
   updatedAt: string;
 };
 
-export type PostList = {
-  id: number;
-  userId: number;
-  title: string;
-  content: string;
-  date: string;
-  studyTime: number;
-  createdAt: string;
-  updatedAt: string;
-  user: {
-    id: number;
-    name: string;
-  }
-};
-
-export type PostDetail = PostList & {
+export type PostList = Post & {
   user: {
     id: number;
     name: string;
   };
-  comments: {
-    id: number;
-    postId: number;
-    userId: number;
-    content: string;
-    createdAt: string;
-    updatedAt: string;
-    user: {
-      id: number;
-      name: string;
-    };
-  }[];
+  _count: {
+    comments: number;
+    likes: number;
+  };
+};
+
+export type PostDetail = PostList & {
+  comments: Comment[];
+  likes: Like[];
+  isLiked: boolean;
 };

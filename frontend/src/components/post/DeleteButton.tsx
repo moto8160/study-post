@@ -9,7 +9,7 @@ export default function DeleteButton({ id }: { id: string }) {
     const ok = confirm('投稿を削除しますか？');
     if (!ok) return;
 
-    // serverから直接cookies()使えないから関数を経由
+    // clientからcookies()が不可
     await deletePost(id);
     router.replace('/posts?status=success&type=post&action=delete');
   };

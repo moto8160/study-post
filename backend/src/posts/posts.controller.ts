@@ -32,15 +32,20 @@ export class PostsController {
     return this.postsService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number): Promise<PostDetail> {
-    return this.postsService.findOne(id);
+  async findOne(
+    @Param('id', ParseIntPipe) id: number,
+    @Request() req: JwtRequest,
+  ): Promise<PostDetail> {
+    const userId = req.user.userId; //JWTからユーザーID取得
+    return this.postsService.findOne(id, userId);
   }
 
   @UseGuards(JwtAuthGuard)
   @Post()
   async createPost(@Body() dto: CreatePostDto, @Request() req: JwtRequest): Promise<PostModel> {
-    const userId = req.user.userId; //JWTからユーザーID取得
+    const userId = req.user.userId;
     return this.postsService.createPost(dto, userId);
   }
 
@@ -62,6 +67,7 @@ export class PostsController {
     return this.postsService.delete(id, userId);
   }
 
+  // コメント機能
   @UseGuards(JwtAuthGuard)
   @Post(':id/comments')
   async createComment(
@@ -71,5 +77,20 @@ export class PostsController {
   ): Promise<Comment> {
     const userId = req.user.userId;
     return this.postsService.createComment(id, userId, dto);
+  }
+
+  // いいね機能
+  @UseGuards(JwtAuthGuard)
+  @Post(':id/likes')
+  async createLike(@Param('id', ParseIntPipe) id: number, @Request() req: JwtRequest) {
+    const userId = req.user.userId;
+    await this.postsService.createLike(id, userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id/likes')
+  async deleteLike(@Param('id', ParseIntPipe) id: number, @Request() req: JwtRequest) {
+    const userId = req.user.userId;
+    await this.postsService.deleteLike(id, userId);
   }
 }

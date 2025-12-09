@@ -3,12 +3,13 @@ import { getCurrentUserId } from '@/src/utils/getCurrentUserId';
 import PostDetailHeader from '@/src/components/post/PostDetailHeader';
 import CommentForm from '@/src/components/comment/CommentForm';
 import CommentList from '@/src/components/comment/CommentList';
+import { authFetch } from '@/src/utils/authFetch';
 
 export default async function PostDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const currentUserId = await getCurrentUserId();
 
-  const res = await fetch(`http://localhost:4000/posts/${id}`);
+  const res = await authFetch(`/posts/${id}`);
   const post: PostDetail = await res.json();
 
   return (
