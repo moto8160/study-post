@@ -1,7 +1,7 @@
 'use server';
 import { cookies } from 'next/headers';
 export async function authFetch(url: string, options: RequestInit = {}) {
-  //RequestInit-fetchプロパティの型、={}-デフォルト値でからオブジェクト
+  //RequestInit-fetchプロパティの型、={}-デフォルト値で空オブジェクト
   const cookieStore = await cookies();
   const token = cookieStore.get('accessToken')?.value;
 

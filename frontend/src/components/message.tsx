@@ -29,12 +29,6 @@ export default function Message() {
       }
     }
 
-    if (type === 'user') {
-      if (action === 'create') {
-        message = 'ユーザー登録しました！';
-      }
-    }
-
     if (type === 'auth') {
       if (action === 'login') {
         message = 'ログインしました！';
@@ -43,10 +37,6 @@ export default function Message() {
         message = 'ログアウトしました！';
       }
     }
-
-    // if (action === 'login') {
-    //   message = 'すでにログイン中です';
-    // }
   }
 
   if (status === 'error') {

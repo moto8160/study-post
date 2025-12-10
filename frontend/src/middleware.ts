@@ -5,7 +5,7 @@ export function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname; //パスを取得
 
   // ログイン不要ページ
-  const publicPaths = ['/', '/posts', '/users/new', '/login'];
+  const publicPaths = ['/', '/posts', '/users/create', '/login'];
 
   // ログイン済み
   if (token) {

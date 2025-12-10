@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Link from 'next/link';
-import { logout } from './logout/actions';
 import { getCurrentUserId } from '../utils/getCurrentUserId';
+import { logout } from '../features/auth/api';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -32,7 +32,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           </Link>
           {currentUserId ? (
             <>
-              <Link href="/posts/new" className="hover:text-gray-300 transition">
+              <Link href="/posts/create" className="hover:text-gray-300 transition">
                 新規投稿
               </Link>
               <Link href={`/users/${currentUserId}`} className="hover:text-gray-300 transition">
@@ -50,7 +50,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
               <Link href="/login" className="hover:text-gray-300 transition">
                 ログイン
               </Link>
-              <Link href="/users/new" className="hover:text-gray-300 transition">
+              <Link href="/users/create" className="hover:text-gray-300 transition">
                 ユーザー登録
               </Link>
             </>

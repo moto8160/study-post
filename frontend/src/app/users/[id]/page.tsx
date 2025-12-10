@@ -1,12 +1,11 @@
-import PostCard from '@/src/components/post/PostCard';
-import { UserDetail } from '@/src/types/user';
+import PostCard from '@/src/features/posts/components/PostCard';
+import { UserDetailResponse } from '@/src/features/users/types';
 import { formatDateOnly } from '@/src/utils/formatDate';
 
 export default async function UserDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const res = await fetch(`http://localhost:4000/users/${id}`);
-  const user: UserDetail = await res.json();
-  //コメント数とかがないからダメ　users/13
+  const user: UserDetailResponse = await res.json();
 
   return (
     <div className="max-w-4xl mx-auto p-6 ">
