@@ -4,7 +4,7 @@ import { PostListResponse } from '@/src/features/posts/types';
 
 
 export default async function PostsPage() {
-  const res = await fetch('http://localhost:4000/posts');
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/posts`);
   const posts: PostListResponse[] = await res.json();
 
   return (

@@ -9,9 +9,9 @@ export function middleware(req: NextRequest) {
 
   // ログイン済み
   if (token) {
-    // すでにログイン中です
+    // ログインしました！
     if (path === '/login' || path === '/users/new') {
-      return NextResponse.redirect(new URL('/posts?status=success&action=login', req.url));
+      return NextResponse.redirect(new URL('/posts?status=success&type=auth&action=login', req.url));
     }
   }
 
@@ -19,7 +19,7 @@ export function middleware(req: NextRequest) {
   if (!token) {
     // ログインしてください
     if (!publicPaths.includes(path)) {
-      return NextResponse.redirect(new URL('/login?status=error&action=login', req.url));
+      return NextResponse.redirect(new URL('/login?status=error&type=auth&action=login', req.url));
     }
   }
 

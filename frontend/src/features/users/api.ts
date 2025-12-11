@@ -5,7 +5,7 @@ export async function createUser(formData: FormData) {
   const email = formData.get('email');
   const password = formData.get('password');
 
-  const res = await fetch('http://localhost:4000/users', {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/users`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name, email, password }),

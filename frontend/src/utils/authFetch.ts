@@ -5,7 +5,7 @@ export async function authFetch(url: string, options: RequestInit = {}) {
   const cookieStore = await cookies();
   const token = cookieStore.get('accessToken')?.value;
 
-  return fetch(`http://localhost:4000${url}`, {
+  return fetch(`${process.env.NEXT_PUBLIC_URL}${url}`, {
     ...options, //method, bodyなど
     headers: {
       'Content-Type': 'application/json',

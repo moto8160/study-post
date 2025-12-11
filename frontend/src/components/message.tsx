@@ -1,5 +1,4 @@
 'use client';
-
 import { useSearchParams } from 'next/navigation';
 
 export default function Message() {
@@ -9,7 +8,7 @@ export default function Message() {
   const type = searchParams.get('type');
   const action = searchParams.get('action');
 
-  // if (!status || !type || !action) return null;
+  if (!status || !type || !action) return null;
 
   let classes = 'p-3 rounded font-medium mb-4';
   let message = '';
@@ -42,12 +41,10 @@ export default function Message() {
   if (status === 'error') {
     classes += ' bg-red-100 text-red-600';
 
-    if (action === 'login') {
-      message = 'ログインしてください';
-    }
-
-    if (action === 'logout') {
-      message = 'ログインしていません';
+    if (type === 'auth') {
+      if (action === 'login') {
+        message = 'ログインしてください';
+      }
     }
   }
 

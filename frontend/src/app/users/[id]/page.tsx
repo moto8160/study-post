@@ -4,7 +4,7 @@ import { formatDateOnly } from '@/src/utils/formatDate';
 
 export default async function UserDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const res = await fetch(`http://localhost:4000/users/${id}`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/users/${id}`);
   const user: UserDetailResponse = await res.json();
 
   return (

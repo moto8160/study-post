@@ -15,7 +15,7 @@ export class PostsService {
         user: { select: { id: true, name: true } },
         _count: { select: { comments: true, likes: true } },
       },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { updatedAt: 'desc' },
     });
   }
 
